@@ -11,28 +11,26 @@ function sendEmails() {
   for (var i = 0; i < data.length; ++i) {
     var row = data[i];
     var emailAddress = row[0]; 
-    var message = "เรี่ยนคุณ " + row[1] + "," + "\n\n";  
+    var message = "เรี่ยนคุณ " + row[1] + "," + "<br /><br />";  
 
-    message = message + "จาก Case Incident : " + row[2] + " " + row[3] + " " + row[4] + " " + row[5]+ "\n\n";
-   // message = message + "Description : " + row[6] + " " + row[3] + " " + row[4] + " " + row[5]+ "\n\n";
+    message = message + "จาก Case Incident : " + row[2] + " " + row[3] + " " + row[4] + " " + row[5]+ "<br /><br />";
+    //message = message + "Description : " + row[6] + "<br /><br />";
 
-    message = message + "ผู้รับเรื่อง : " + row[1] + "\n";
-    message = message + "วันที่เปิด : " + row[7] + "\n\n";
+    message = message + "ผู้รับเรื่อง : " + row[1] + "<br />";
+    message = message + "วันที่เปิด : " + row[7] + "<br /><br />";
 
-    message = message + "Resolution : ทีมพัฒนาระบบตรวจสอบแล้วแจ้งข้อมูลดังนี้ " + "\n";
-    message = message + row[8] + "\n\n";
+    message = message + "<b> Resolution : ทีมพัฒนาระบบตรวจสอบแล้วแจ้งข้อมูลดังนี้ </b>" + "<br />";
+    message = message + row[8] + "<br /><br />";
     
-    message = message + "    ** รบกวนช่วยยืนยันกลับผ่านระบบ Service Now หรือ reply email นี้ หากปัญหาดังกล่าวได้รับการแก้ไขหรือยังไม่ได้รับการแก้ไข แจ้งกลับภายใน 5 วัน หากไม่แจ้งกลับระบบจะดำเนินการปิดงานอัตโนมัติ ** " + "\n\n" ;
-
-    message = message + "ขอบคุณที่ใช้บริการ" + "\n";
-    message = message + "-------------------------------------" + "\n";
-    message = message + "IT Helpdesk DSL" + "\n";
-    message = message + "รับแจ้งปัญหาด้าน IT กองทุนเงินให้กู้ยืมเพื่อการศึกษา (กยศ.)" + "\n";
-    message = message + "หมายเลขโทรศัพท์ : 02-248-4006" + "\n";
-    message = message + "อีเมล์ : ithelpdesk.dsl@ktbcs.co.th" + "\n";
+    message = message + "    <p style='color:red;'><b>** รบกวนช่วยยืนยันกลับผ่านระบบ Service Now หรือ reply email นี้ หากปัญหาดังกล่าวได้รับการแก้ไขหรือยังไม่ได้รับการแก้ไข แจ้งกลับภายใน 5 วัน หากไม่แจ้งกลับระบบจะดำเนินการปิดงานอัตโนมัติ **</p></b> " + "<br /><br />" ;
+  
+    message = message + " ขอบคุณที่ใช้บริการ" + "<br /> ";
+    message = message + "-------------------------------------" + "<br />";
+    message = message + "IT Helpdesk DSL" + "<br />";
+    message = message + "รับแจ้งปัญหาด้าน IT กองทุนเงินให้กู้ยืมเพื่อการศึกษา (กยศ.)" + "<br />";
+    message = message + "หมายเลขโทรศัพท์ : 02-248-4006" + "<br />";
+    message = message + "อีเมล์ : ithelpdesk.dsl@ktbcs.co.th </p> " + "<br />";
     
-
-
 
     var emailSent = row[1];  
     if (emailSent != "") {  
@@ -41,11 +39,12 @@ function sendEmails() {
         to: emailAddress, 
         cc: emailcc,
         subject: subject,
-        body: message,
-        
-      });
+        htmlBody: message,
+});
       sheet.getRange(startRow + i, 13).setValue(Send_email_Success);
       SpreadsheetApp.flush();
+
+      
     }
   }
 }
