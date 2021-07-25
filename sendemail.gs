@@ -4,7 +4,7 @@ function sendEmails() {
   var startRow = 4;  
 
   var numRows = 350 ;   
-  var dataRange = sheet.getRange(startRow, 1, numRows, 14)
+  var dataRange = sheet.getRange(startRow, 1, numRows, 16)
   var data = dataRange.getValues();
   // ithelpdesk.dsl@ktbcs.co.th
    var emailcc = "ithelpdesk.dsl@ktbcs.co.th";
@@ -18,13 +18,12 @@ function sendEmails() {
     message = message + "<div style='white-space: pre-line'>";
     message = message + "เรียนคุณ " + row[1] + "\n\n"; 
     message = message + "จาก Case Incident : " + row[2] + " " + row[3] + " " + row[4] + " " + row[5]+ "\n\n";
-    message = message + "<b>Description : </b>" + row[6] + " " + row[3] + " " + row[4] + " " + row[5]+ "\n\n";
+    message = message + "<b>Description : </b>" + row[6] + "\n\n";
 
-  
-    message = message + row[12] + "\n"; //ผู้รับเรื่อง
-    message = message + "วันที่เปิด : " + row[7] + "\n\n";
-
-    // message = message + "----------------------------------------------------------------------------------------" + "\n\n";
+  if (row[12] != "") {
+  message = message + row[12] + "\n"; //ผู้รับเรื่อง
+  message = message + row[13] + row[14] + "\n\n"; //วันที่เปิด
+  }
 
     message = message + "<b>Resolution : </b>" +"ทีมพัฒนาระบบตรวจสอบแล้วแจ้งข้อมูลดังนี้ " + "\n";
     message = message + row[8] + "\n\n";
@@ -40,18 +39,17 @@ function sendEmails() {
     message = message + "</div>";
 
 
-
     var emailSent = row[1];  
     if (emailSent != "") {  
-      var subject = "ปัญหาที่แจ้งได้รับการตรวจสอบแล้ว Incident :  " + row[2] + " " + row[3] + " " + row[4] + " " + row[5];  
+      var subject1 = "ปัญหาที่แจ้งได้รับการตรวจสอบแล้ว Incident :  " + row[2] + " " + row[3] + " " + row[4] + " " + row[5];  
       MailApp.sendEmail({
         to: emailAddress, 
         cc: emailcc,
-        subject: subject,
+        subject: subject1,
         htmlBody: message,
 
       });
-      sheet.getRange(startRow + i, 14).setValue(Send_email_Success);
+      sheet.getRange(startRow + i, 16).setValue(Send_email_Success);
       SpreadsheetApp.flush();
     }
   }
