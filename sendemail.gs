@@ -10,19 +10,44 @@ function sendEmails() {
    var emailcc = "ithelpdesk.dsl@ktbcs.co.th";
   
 
+// ฟังชั่นเปลี่ยนฟอร์แมตวันที่
   for (var i = 0; i < data.length; ++i) {
     var row = data[i];
     var emailAddress = row[0]; 
+    var dt = row[7];
+
+      function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+
+    return [year, month, day].join('-');
+}
+
+
+var dateissue = dt.toLocaleString("en-EN", { timeZone: "Asia/Bangkok", hour12: false });
+
+    var dateissuedate =  formatDate(dateissue);
+
+    var dataissuetime = new Date(dt).toLocaleTimeString("en-EN", { timeZone: "Asia/Bangkok", hour12: false });
+
+
     var message = "";
 
     message = message + "<div style='white-space: pre-line'>";
     message = message + "เรียนคุณ " + row[1] + "\n\n"; 
-    message = message + "จาก Case Incident : " + row[2] + " " + row[3] + " " + row[4] + " " + row[5]+ "\n\n";
+    message = message + "จาก Case Incident : " + row[2] + " " + row[3] + " " + row[4] + "\n";
     message = message + "<b>Description : </b>" + row[6] + "\n\n";
 
   if (row[12] != "") {
   message = message + row[12] + "\n"; //ผู้รับเรื่อง
-  message = message + row[13] + row[14] + "\n\n"; //วันที่เปิด
+  message = message + row[13] + dateissuedate + " " + dataissuetime + "\n\n"; //วันที่เปิด
   }
 
     message = message + "<b>Resolution : </b>" +"ทีมพัฒนาระบบตรวจสอบแล้วแจ้งข้อมูลดังนี้ " + "\n";
@@ -41,7 +66,7 @@ function sendEmails() {
 
     var emailSent = row[1];  
     if (emailSent != "") {  
-      var subject1 = "ปัญหาที่แจ้งได้รับการตรวจสอบแล้ว Incident :  " + row[2] + " " + row[3] + " " + row[4] + " " + row[5];  
+      var subject1 = "ปัญหาที่แจ้งได้รับการตรวจสอบแล้ว Incident :  " + row[2] + " " + row[3] + " " + row[4]  ;  
       MailApp.sendEmail({
         to: emailAddress, 
         cc: emailcc,
